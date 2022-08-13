@@ -2,6 +2,7 @@ import p5 from "p5";
 
 import "./style.css";
 
+const distance = [] as number[];
 new p5((p5Instance: p5) => {
   const p = p5Instance;
 
@@ -16,14 +17,20 @@ new p5((p5Instance: p5) => {
   let loc = p.createVector(0, 0);
 
   p.draw = function draw() {
+    let locPrev = loc.copy();
     p.translate(p.windowWidth / 2, p.windowHeight / 2);
     let angleOfPoint = p.atan2(loc.y, loc.x);
-    console.log({ angleOfPoint });
     let choice = randomWalk(p);
-    loc.add(choice.mult(scale / 2));
+    loc.add(choice.mult(scale));
     p.stroke(p.map(angleOfPoint, -180, 180, 0, 255), 100, 180, 100);
-    p.strokeWeight(scale / 2);
-    p.point(loc.x, loc.y, scale / 2);
+    p.strokeWeight(5);
+    p.line(locPrev.x, locPrev.y, loc.x, loc.y);
+    distance.push(p.dist(loc.x, loc.y, 0, 0));
+    console.log({
+      avg: distance.reduce((a, b) => a + b) / distance.length,
+      max: Math.max(...distance),
+      noOfSteps: distance.length,
+    });
   };
 }, document.getElementById("app")!);
 
