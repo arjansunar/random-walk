@@ -40,7 +40,11 @@ const randomWalk = (p5: p5) => {
     p5.createVector(0, -1), // down
     p5.createVector(-1, 0), // left
     p5.createVector(1, 0), // right
+    p5.createVector(1, 1), // right top
+    p5.createVector(1, -1), // right bottom
+    p5.createVector(-1, 1), // left top
+    p5.createVector(-1, -1), // left bottom
   ];
-  const choice = p5.floor(p5.random(4));
+  const choice = p5.floor(p5.random(choices.length));
   return choices[choice];
 };
